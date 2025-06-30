@@ -1,0 +1,70 @@
+name: Generate Reports from Updated CSV Files
+
+permissions:
+  contents: write
+
+on:
+  push:
+    paths:
+      - 'data/*.csv'
+  workflow_dispatch:
+
+jobs:
+  generate_reports:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 🔍 Find modified CSV files
+        id: find_csvs
+        run: |
+          # Get changed CSV files in data/
+          echo "Detecting changed files..."
+          # Check if 'before' SHA exists and is valid
+          if [ -z "${{ github.event.before }}" ] || [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e ${{ github.event.before }} 2>/dev/null; then
+            # First commit, unknown, or invalid 'before' SHA: list all CSVs
+            changed_csvs=$(git ls-files 'data/*.csv' | grep -v -- '-contributions.csv')
+          else
+            changed_csvs=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^data/.*\.csv$' | grep -v -- '-contributions.csv' || true)
+          fi
+          echo "Changed CSVs:"
+          echo "$changed_csvs"
+
+          # Extract unique YYYY-MM values from filenames
+          months=$(echo "$changed_csvs" | sed -E 's|data/([0-9]{4}-[0-9]{2}).csv|\1|' | sort -u)
+
+          # Write multiline output for months
+          {
+            echo "months<<EOF"
+            echo "$months"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: "🧾 Generate reports for changed months"
+        run: |
+          echo "${{ steps.find_csvs.outputs.months }}" | while read -r month; do
+            [ -z "$month" ] && continue
+            echo "➡️ Generating report for $month..."
+            python3 expense_tracker/generate_report.py "$month"
+          done
+
+      - name: "🔼 Commit and push reports"
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add reports/*.txt
+          if git diff --cached --quiet; then
+            echo "No report changes to commit."
+          else
+            git commit -m "Update reports [skip ci]"
+            git pull --no-edit --strategy=merge origin ${{ github.ref_name }}
+            git push
+          fi

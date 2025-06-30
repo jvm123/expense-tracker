@@ -1,0 +1,8 @@
+Date,Category,Paid By,Amount,Shared,Notes
+2025-06-01,Rent,Both,1200,Yes,Split evenly
+2025-06-03,Groceries,Alice,350,Yes,Weekly groceries
+2025-06-05,Dining Out,Bob,220,Yes,3 dinners
+2025-06-08,Utilities,Alice,180,Yes,Internet & electricity
+2025-06-10,Streaming,Bob,45,Yes,Netflix & Spotify
+2025-06-12,Personal Shopping,Alice,90,No,Not shared
+2025-06-15,Household Items,Bob,80,Yes,Cleaning
