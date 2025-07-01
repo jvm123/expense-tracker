@@ -75,9 +75,7 @@ def calculate_month_data(month, csv_file, contrib_file):
             - half_share
         )
 
-    account_balance = (
-        sum(contributions.values())  - total_shared
-    )
+    account_balance = sum(contributions.values()) - total_shared
 
     return {
         "month": month,
