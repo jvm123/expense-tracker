@@ -23,11 +23,21 @@ Features:
 
 ## 📤 How It Works
 
-1. Add your monthly expenses to `data/YYYY-MM.csv`
-2. Add your monthly contributions to `data/YYYY-MM-contributions.csv`
-3. Commit
-4. GitHub Actions runs `python3 scripts/generate_report.py`
-5. The report appears in `reports/YYYY-MM-report.md`
+With Github Actions (runs fully on Github, you can edit your csvs there; no local Python setup needed):
+1. Fork this repo
+2. Add your monthly expenses to `data/YYYY-MM.csv`
+3. Add your monthly contributions to `data/YYYY-MM-contributions.csv`
+4. Commit
+5. GitHub Actions runs `python3 scripts/generate_report.py`, just wait a minute for it to complete
+6. The report appears in `reports/YYYY-MM-report.md`
+
+Locally:
+1. Clone this repo
+2. $ poetry install
+3. Add your monthly expenses to `data/YYYY-MM.csv` or run `./expense_tracker.sh add-expense --paid-by Bob --amount 42 --notes "Weekly shopping"`
+4. Add your monthly contributions to `data/YYYY-MM-contributions.csv` or run `./expanse_tracker.sh add-contribution --name Alice --amount 100 --notes "Monthly deposit"`
+5. Run `./expense_tracker.sh report`
+6. The report appears in `reports/YYYY-MM-report.md`
 
 ---
 
