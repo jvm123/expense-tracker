@@ -28,7 +28,7 @@ With Github Actions (runs fully on Github, you can edit your csvs there; no loca
 2. Add your monthly expenses to `data/YYYY-MM.csv`
 3. Add your monthly contributions to `data/YYYY-MM-contributions.csv`
 4. Commit
-5. GitHub Actions runs `python3 scripts/generate_report.py`, just wait a minute for it to complete
+5. GitHub Actions runs `./expense_tracker.sh report`, just wait a minute for it to complete
 6. The report appears in `reports/YYYY-MM-report.md`
 
 Locally:
