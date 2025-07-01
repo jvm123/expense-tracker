@@ -76,7 +76,7 @@ def calculate_month_data(month, csv_file, contrib_file):
         )
 
     account_balance = (
-        sum(contributions.values()) + sum(virtual_contributions.values()) - total_shared
+        sum(contributions.values())  - total_shared
     )
 
     return {
@@ -123,7 +123,7 @@ def generate_overview_report():
 
     months_data = []
     data_dir = Path("data")
-    for csv_file in data_dir.glob("[0-9][0-9][0-9][0-9]-[0-9][0-9].csv"):
+    for csv_file in data_dir.glob("2[0-9][0-9][0-9]-[0-9][0-9].csv"):
         month = csv_file.stem
         contrib_file = data_dir / f"{month}-contributions.csv"
         month_data = calculate_month_data(month, csv_file, contrib_file)
@@ -145,7 +145,7 @@ def generate_overview_report():
 
     # Calculate expenses by category across all months
     all_categories = {}
-    for csv_file in data_dir.glob("[0-9][0-9][0-9][0-9]-[0-9][0-9].csv"):
+    for csv_file in data_dir.glob("2[0-9][0-9][0-9]-[0-9][0-9].csv"):
         with csv_file.open() as f:
             reader = csv.DictReader(f)
             for row in reader:
