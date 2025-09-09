@@ -16,7 +16,7 @@ Features:
 
 - [`data/`](data/) — Monthly raw CSV data files
 - [`reports/`](reports/) — Auto-generated reports
-- [`expanse_tracker/`](scripts/) — Report-generation logic and cli tool
+- [`expense_tracker/`](scripts/) — Report-generation logic and cli tool
 - [`.github/workflows/`](.github/workflows/) — GitHub Actions
 
 ---
@@ -35,7 +35,7 @@ Locally:
 1. Clone this repo
 2. $ poetry install
 3. Add your monthly expenses to `data/YYYY-MM.csv` or run `./expense_tracker.sh add-expense --paid-by Bob --amount 42 --notes "Weekly shopping"`
-4. Add your monthly contributions to `data/YYYY-MM-contributions.csv` or run `./expanse_tracker.sh add-contribution --name Alice --amount 100 --notes "Monthly deposit"`
+4. Add your monthly contributions to `data/YYYY-MM-contributions.csv` or run `./expense_tracker.sh add-contribution --name Alice --amount 100 --notes "Monthly deposit"`
 5. Run `./expense_tracker.sh report`
 6. The report appears in `reports/YYYY-MM-report.md`
 
@@ -46,16 +46,16 @@ Locally:
 You can record expenses and contributions easily from the command line:
 
 ```sh
-./expanse_tracker.sh add-expense --date 2025-07-01 --category Groceries --paid-by Alice --amount 42.50 --notes "Weekly shopping"
+./expense_tracker.sh add-expense --date 2025-07-01 --category Groceries --paid-by Alice --amount 42.50 --notes "Weekly shopping"
 
-./expanse_tracker.sh add-contribution --date 2025-07-01 --name Bob --amount 1000 --notes "Monthly deposit"
+./expense_tracker.sh add-contribution --date 2025-07-01 --name Bob --amount 1000 --notes "Monthly deposit"
 ```
 
 This will append to the appropriate CSV files in the `data/` directory.
 
 To trigger report generation on the command line, run
 ```sh
-./expanse_tracker.sh report
+./expense_tracker.sh report
 ```
 
 ---
@@ -112,7 +112,7 @@ Date,Name,Amount,Virtual Contribution,Notes
 Date,Name,Amount,Virtual Contribution,Notes
 2025-06-01,Bob,-100,No,Alice bought you ..
 ```
-- something you bought together served your partner more than you: In addition to the expanse, also add a negative contribution for your partner if you must, with the fraction of the expanse you would like back
+- something you bought together served your partner more than you: In addition to the expense, also add a negative contribution for your partner if you must, with the fraction of the expense you would like back
 
 ---
 
